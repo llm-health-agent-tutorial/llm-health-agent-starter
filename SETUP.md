@@ -5,7 +5,7 @@ just a quick *verification*, not a first install.
 
 ## 1. Install
 ```bash
-git clone <this repo> && cd <this repo>
+git clone https://github.com/llm-health-agent-tutorial/llm-health-agent-starter.git && cd llm-health-agent-starter
 bash install.sh                  # macOS/Linux
 # Windows:  powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```

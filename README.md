@@ -10,7 +10,7 @@ scaffold and ask it open-ended questions over a synthetic multimodal sensing dat
 
 ## Quickstart (5 min)
 ```bash
-git clone <this repo> && cd <this repo>
+git clone https://github.com/llm-health-agent-tutorial/llm-health-agent-starter.git && cd llm-health-agent-starter
 bash install.sh          # uv-first; provisions Python 3.11, installs, registers a Jupyter kernel
 ha-check                 # preflight: python / libs / data / backend tier
 make lab                 # JupyterLab on notebooks/  (pick the "health-agent" kernel)
