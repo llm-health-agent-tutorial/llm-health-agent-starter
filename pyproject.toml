@@ -28,9 +28,9 @@ dependencies = [
 [project.optional-dependencies]
 notebooks = ["jupyterlab==4.3.4", "ipykernel==6.29.5", "nbconvert==7.16.4"]
 dev = ["pytest==8.3.4", "nbconvert==7.16.4", "ruff==0.8.4"]
-openai = ["openai==1.57.4"]
-gemini = ["google-genai==0.3.0"]
-ollama = ["ollama==0.4.4"]
+openai = ["openai>=1.57"]
+gemini = ["google-genai>=0.3"]
+ollama = ["ollama>=0.4"]
 
 [project.scripts]
 ha-check = "healthagent.verify:main"
@@ -41,6 +41,9 @@ packages = ["healthagent", "healthagent.llm", "healthagent.tools", "healthagent.
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+markers = [
+    "provider_contract: needs the live provider SDKs (openai/google-genai/ollama); run in the dedicated CI job",
+]
 
 [tool.ruff]
 line-length = 100

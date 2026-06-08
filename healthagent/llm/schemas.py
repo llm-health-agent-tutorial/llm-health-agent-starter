@@ -23,13 +23,16 @@ class ToolCall:
     id: str
     name: str
     args: dict[str, Any]
+    # Set by a provider parser when the model emitted invalid JSON arguments (model-bad input,
+    # not an adapter bug). The loop short-circuits on this and never executes the tool.
+    parse_error: str | None = None
 
 
 @dataclass
 class ChatResponse:
     text: str
     tool_calls: list[ToolCall] = field(default_factory=list)
-    provider_raw: Any = None  # original assistant message; enables inbound reconstruction
+    provider_raw: Any = None  # original assistant message/parts; enables faithful reconstruction
 
 
 @dataclass
@@ -38,6 +41,15 @@ class ToolResult:
     summary: str         # the short text the LLM sees
     value: Any = None    # full payload (dict / list / image path)
     error: bool = False  # True if the tool failed
+    dropped_args: list[str] = field(default_factory=list)  # unknown kwargs stripped at the boundary
+
+
+@dataclass
+class EvidenceRecord:
+    """A tool call paired with its result, so grounding and the completion check know which tool
+    (and which args) produced each summary."""
+    tool_call: ToolCall
+    result: ToolResult
 
 
 @dataclass

@@ -33,6 +33,14 @@ def test_call_coerces_str_to_int():
     assert r.value == {"n2": 10}
 
 
+def test_unknown_kwarg_stripped_and_recorded():
+    reg = ToolRegistry()
+    reg.register(sample)
+    r = reg.call("sample", user_id="u01", n=3, bogus=1)  # stray arg must not raise/derail
+    assert r.value == {"n2": 6}            # ran with n=3 (bogus dropped, not passed)
+    assert r.dropped_args == ["bogus"]     # but recorded for auditability
+
+
 def test_call_wraps_none_and_errors():
     reg = ToolRegistry()
 

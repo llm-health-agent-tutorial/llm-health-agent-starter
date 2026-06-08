@@ -87,7 +87,7 @@ def _stub(name):
 
 
 def _real_observe(client, tc, result):
-    return client.serialize_tool_result(tc.id, result)
+    return client.serialize_tool_result(tc, result)
 
 
 @pytest.mark.parametrize("blank", ["query_screen_time", "detect_change", "query_sleep", "plot_timeseries"])

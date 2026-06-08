@@ -42,8 +42,8 @@ def _apply_minimal_edits(ws: Path) -> None:
         "                        student_tools.detect_change, visualization.plot_timeseries]",
     )
     c = c.replace(
-        '    return client.serialize_tool_result(tool_call.id, ToolResult("text", OBSERVATION_NOT_ATTACHED, {}))',
-        "    return client.serialize_tool_result(tool_call.id, result)",
+        '    return client.serialize_tool_result(tool_call, ToolResult("text", OBSERVATION_NOT_ATTACHED, {}))',
+        "    return client.serialize_tool_result(tool_call, result)",
     )
     c = c.replace(
         "SYSTEM_PROMPT = BASE_SYSTEM\n# === END TODO-3 ===",

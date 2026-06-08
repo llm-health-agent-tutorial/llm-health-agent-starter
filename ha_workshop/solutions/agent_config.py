@@ -20,7 +20,7 @@ WORKSHOP_TOOLS = [
 
 # TODO-2 (filled): feed the real serialized tool result back to the model.
 def observe(client, tool_call, result):
-    return client.serialize_tool_result(tool_call.id, result)
+    return client.serialize_tool_result(tool_call, result)
 
 
 # TODO-3 (filled): base prompt + the [GROUNDING] and [REFUSAL] clauses.
@@ -35,12 +35,17 @@ def make_registry() -> ToolRegistry:
 
 
 def run(question: str, *, client, user_id: str = "u01", verbose: bool = False):
+    from healthagent.agent import live_policy
+
+    prompt, check = live_policy.augment(SYSTEM_PROMPT)
     return run_agent(
         question,
         client=client,
         registry=make_registry(),
         observe=observe,
-        system_prompt=SYSTEM_PROMPT,
+        system_prompt=prompt,
         user_id=user_id,
+        max_steps=10,
+        completion_check=check,
         verbose=verbose,
     )

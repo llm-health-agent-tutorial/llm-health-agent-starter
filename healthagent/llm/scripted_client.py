@@ -5,26 +5,30 @@ It implements the same LLMClient seam as the live adapters, and genuinely drives
 - READS the registered tools each turn (so TODO-1 registration has a visible effect),
 - CONSUMES the observations appended after each tool call (so TODO-2 has a visible effect:
   with the default placeholder observe, every observation is failed evidence -> ungrounded),
-- honors the explicit [GROUNDING]/[REFUSAL] markers in the system prompt (so TODO-3 has a
+- honors the explicit [GROUNDING] marker in the system prompt (so TODO-3's grounding clause has a
   visible effect), parsed exactly,
 - templates its final answer over the REAL numbers in the tool summaries (never hardcoded,
   never keyed on participant tool output), and never fabricates a finding from failed/missing
   evidence (the safety crux).
+
+Medical-advice REFUSAL is NOT handled here — it is a deterministic preflight in run_agent (loop-owned),
+so it applies uniformly to every backend once TODO-3 adds the [REFUSAL] clause.
 """
 from __future__ import annotations
 
 from .. import config
-from ..safety.refusal import REFUSAL_TEMPLATE, is_medical_advice
 from .client import LLMClient
 from .evidence import is_failed_observation_message
-from .schemas import GROUNDING_MARKER, REFUSAL_MARKER, ChatResponse, ToolCall
+from .schemas import GROUNDING_MARKER, ChatResponse, ToolCall
 
 _ACTIVITY_KW = ("activity", "active", "steps", "step ", "goal", "exercise", "walk", "move", "fitness")
 _SLEEP_KW = ("sleep", "slept", "sleeping", "tired", "rest", "insomnia", "bed", "fatigue")
 
 
-def _last_user_text(messages: list[dict]) -> str:
-    for m in reversed(messages):
+def _task_text(messages: list[dict]) -> str:
+    """The ORIGINAL task = the FIRST user message. Keying off the first (not last) user message
+    means later nudges / the force-final message don't change the plan or render branch."""
+    for m in messages:
         if m.get("role") == "user":
             return m.get("content", "")
     return ""
@@ -167,17 +171,15 @@ def _render(question: str, obs: list[dict], grounding_on: bool) -> str:
 class ScriptedBackend(LLMClient):
     provider = "scripted"
 
-    def chat(self, messages: list[dict], tools: list[dict] | None = None) -> ChatResponse:
+    def chat(self, messages: list[dict], tools: list[dict] | None = None,
+             *, force_tool: str | None = None) -> ChatResponse:
+        # force_tool is ignored: ScriptedBackend already follows its plan deterministically.
         tools = tools or []
         available = {t.get("name") for t in tools}
-        question = _last_user_text(messages)
+        question = _task_text(messages)  # original task (first user message), nudge-proof
         sys = _system_text(messages)
         grounding_on = GROUNDING_MARKER in sys
-        refusal_on = REFUSAL_MARKER in sys
-
-        # Safety: refuse medical-advice probes only once the [REFUSAL] clause is present.
-        if refusal_on and is_medical_advice(question):
-            return ChatResponse(text=REFUSAL_TEMPLATE, tool_calls=[], provider_raw={"scripted": "refusal"})
+        # NB: refusal is now a deterministic preflight in run_agent (loop-owned), not here.
 
         plan = _plan(question, available)
         executed = _executed_signatures(messages)

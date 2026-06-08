@@ -28,8 +28,8 @@ WORKSHOP_TOOLS: list = [
 # === TODO-2: build the observation message the model sees after each tool call. ===
 def observe(client, tool_call, result):
     # TODO: replace the placeholder line below with the real serialized tool result:
-    #     return client.serialize_tool_result(tool_call.id, result)
-    return client.serialize_tool_result(tool_call.id, ToolResult("text", OBSERVATION_NOT_ATTACHED, {}))
+    #     return client.serialize_tool_result(tool_call, result)
+    return client.serialize_tool_result(tool_call, ToolResult("text", OBSERVATION_NOT_ATTACHED, {}))
 # === END TODO-2 ===
 
 
@@ -48,12 +48,20 @@ def make_registry() -> ToolRegistry:
 
 
 def run(question: str, *, client, user_id: str = "u01", verbose: bool = False):
+    # Read-only live-reliability plumbing (NOT a TODO): adds tool-selection guidance + a completion
+    # check so the optional "try live" cell is as reliable as the solution. Your three TODOs above
+    # are unchanged.
+    from healthagent.agent import live_policy
+
+    prompt, check = live_policy.augment(SYSTEM_PROMPT)
     return run_agent(
         question,
         client=client,
         registry=make_registry(),
         observe=observe,
-        system_prompt=SYSTEM_PROMPT,
+        system_prompt=prompt,
         user_id=user_id,
+        max_steps=10,
+        completion_check=check,
         verbose=verbose,
     )

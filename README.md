@@ -41,12 +41,15 @@ tests/              # contract + safety + workshop-flow tests
 
 ## Backends
 `get_client("auto")` resolves in this order and prints a loud banner of the active tier:
-`HA_BACKEND` env → `GEMINI_API_KEY` → `OPENAI_API_KEY` → local Ollama → **scripted** (always-works
-floor). In this release the **scripted** backend is fully implemented; live Gemini/OpenAI/Ollama
-adapters land in the next milestone. The scripted backend is a *deterministic teaching backend*,
-not a real LLM: it genuinely drives the loop (reads your registered tools, consumes observations,
-honors the grounding/refusal prompt) so your Module-4 edits produce visible behavior changes
-offline.
+`HA_BACKEND` env → `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) → `OPENAI_API_KEY` → local Ollama →
+**scripted** (always-works
+floor). All four backends are implemented; the live ones need their SDKs (`make live-install`) — if a
+key/model is configured but the SDK is missing, `ha-check` prints the exact fix. The **scripted**
+backend is a *deterministic teaching backend*, not a real LLM: it drives the loop (reads your
+registered tools, consumes observations, honors the `[GROUNDING]` clause) so your Module-4 edits
+produce visible behavior changes with no key or network. **Medical-advice refusal is loop-owned** (a
+deterministic preflight in `run_agent`, active once TODO-3 adds the `[REFUSAL]` clause), so it behaves
+identically on every backend rather than depending on a live model's compliance.
 
 ## Safety
 Incomplete edits **fail safe**: if a tool isn't implemented or the observation step isn't wired,

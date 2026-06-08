@@ -1,9 +1,12 @@
-.PHONY: install verify data lab test solutions ollama-pull clean
+.PHONY: install live-install verify data lab test solutions ollama-pull clean
 VENV ?= .venv
 PY = $(VENV)/bin/python
 
-install:        ## one-command install (uv-first, Python 3.11)
+install:        ## one-command install (uv-first, Python 3.11; scripted floor works for everyone)
 	bash install.sh
+
+live-install:   ## add the live LLM SDKs (opt-in; needed for a key/Ollama-backed agent)
+	uv sync --locked --extra notebooks --extra dev --extra openai --extra gemini --extra ollama
 
 verify:         ## run the preflight check
 	$(PY) -m healthagent.verify
@@ -14,8 +17,8 @@ data:           ## (re)generate the committed synthetic dataset
 lab:            ## launch JupyterLab on the notebooks
 	$(VENV)/bin/jupyter lab notebooks/
 
-test:           ## run the test suite
-	$(PY) -m pytest -q -p no:warnings
+test:           ## run the offline-core test suite (provider-contract tests need the live extras)
+	$(PY) -m pytest -q -p no:warnings -m "not provider_contract"
 
 solutions:      ## copy reference solutions over the workshop stubs (instructor rescue)
 	cp ha_workshop/solutions/student_tools.py ha_workshop/student_tools.py

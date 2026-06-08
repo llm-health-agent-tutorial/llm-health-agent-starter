@@ -7,6 +7,8 @@ on:
 
 jobs:
   test:
+    # Offline-core matrix: NO provider SDKs installed. Proves the whole tutorial works on the
+    # scripted floor, and that the adapter modules import without their SDKs (lazy-import hygiene).
     strategy:
       fail-fast: false
       matrix:
@@ -17,12 +19,45 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install uv
         uses: astral-sh/setup-uv@v3
-      - name: Install from the lockfile (canonical)
+      - name: Install from the lockfile (canonical, no live extras)
         run: uv sync --locked --extra dev --python ${{ matrix.python }}
+      - name: Adapter modules import WITHOUT their provider SDKs (lazy import + package completeness)
+        run: uv run python -c "import healthagent.llm.errors, healthagent.llm.openai_client, healthagent.llm.gemini_client, healthagent.llm.ollama_client, healthagent.agent.live_policy; print('adapter modules import clean with no SDKs installed')"
       - name: Verify committed dataset matches the generator + teaching signal
         run: uv run python -m pytest tests/test_data_pattern.py -q -p no:warnings
-      - name: Run test suite
-        run: uv run python -m pytest -q -p no:warnings
+      - name: Run offline-core test suite (provider-contract tests run in their own job)
+        run: uv run python -m pytest -q -p no:warnings -m "not provider_contract"
+
+  provider-contract:
+    # Dedicated job WITH the live SDKs: message-shape contract + client-factory/fallback tests.
+    # No network (the contract tests construct provider type objects; the factory tests fake the SDKs).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Install with the live provider SDKs
+        run: uv sync --locked --extra dev --extra openai --extra gemini --extra ollama --python 3.11
+      - name: live-install target expands to the exact locked uv command
+        run: make -n live-install | grep -- "uv sync --locked --extra notebooks --extra dev --extra openai --extra gemini --extra ollama"
+      - name: Contract + factory tests (no network)
+        run: uv run python -m pytest tests/test_client_factory.py tests/test_provider_contract.py -q -p no:warnings
+
+  notebooks:
+    # Headless notebook regression: even with fake live keys set, the core cells run on the scripted
+    # backend and the optional "try live" cell stays gated off (no network).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Install with the notebook extra
+        run: uv sync --locked --extra notebooks --extra dev --python 3.11
+      - name: Execute core notebooks on the scripted backend
+        env:
+          HA_TEST_NOTEBOOKS: "1"
+          HA_BACKEND: auto
+          OPENAI_API_KEY: sk-fake
+          GEMINI_API_KEY: fake-gemini-key
+        run: uv run python -m pytest tests/test_notebooks.py -q -p no:warnings
 
   install-script:
     # Exercises the real participant installer on each OS (the round-5 Windows gate).

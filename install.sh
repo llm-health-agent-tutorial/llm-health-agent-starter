@@ -38,7 +38,7 @@ fi
 echo "==> registering Jupyter kernel '$KERNEL'"
 python -m ipykernel install --user --name "$KERNEL" --display-name "$KERNEL" >/dev/null 2>&1 || true
 
-[ -f .env ] || { cp .env.example .env; echo "==> wrote .env (default HA_BACKEND=scripted)"; }
+[ -f .env ] || { cp .env.example .env; echo "==> wrote .env (HA_BACKEND=auto; scripted is the floor)"; }
 
 echo "==> verifying"
 ha-check   # exits non-zero (and aborts here) if a hard check fails — no false "Done."

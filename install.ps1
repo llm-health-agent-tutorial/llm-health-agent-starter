@@ -28,7 +28,7 @@ if (Get-Command uv -ErrorAction SilentlyContinue) {
 Write-Host "==> registering Jupyter kernel '$Kernel'"
 python -m ipykernel install --user --name $Kernel --display-name $Kernel 2>$null
 
-if (-not (Test-Path .env)) { Copy-Item .env.example .env; Write-Host "==> wrote .env (HA_BACKEND=scripted)" }
+if (-not (Test-Path .env)) { Copy-Item .env.example .env; Write-Host "==> wrote .env (HA_BACKEND=auto; scripted is the floor)" }
 
 Write-Host "==> verifying"
 ha-check

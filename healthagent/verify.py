@@ -41,14 +41,24 @@ def _check_data() -> tuple[bool, str]:
 
 
 def _check_backend() -> tuple[bool, str]:
+    """Local-only: never makes a cloud network call. Cloud keys show as configured-not-verified;
+    only `tests/test_live_smoke.py` verifies live credentials. The scripted floor always works."""
+    import os
+
     from . import config
     from .llm.client import get_client
 
     desired = config.resolve_backend()
-    client = get_client("auto", quiet=True)
+    client = get_client("auto", quiet=True)  # cloud availability() is import+env only (no network)
     note = f"desired={desired}, active={client.provider}"
-    if client.provider == "scripted" and desired != "scripted":
-        note += "  (live adapter arrives in Milestone 2; using offline floor)"
+    if client.provider in {"openai", "gemini"}:
+        note += "  (configured; verified=not checked offline — run live smoke to verify the key)"
+    elif client.fallback_reason:
+        note += f"  (fell back: {client.fallback_reason})"
+        if "MissingSDK" in client.fallback_reason:
+            note += "  fix: `make live-install`"
+        elif os.getenv("OLLAMA_MODEL") or desired == "ollama":
+            note += "  (e.g. `ollama pull <model>`)"
     return True, note  # scripted floor always works -> never fails the gate
 
 

@@ -50,6 +50,12 @@ def dataset_today() -> str:
     return DEMO_TODAY.isoformat()
 
 
+def gemini_api_key() -> str | None:
+    """Gemini credential. Accepts GEMINI_API_KEY (our documented name) OR GOOGLE_API_KEY (the
+    google-genai SDK's native variable), so either works."""
+    return os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+
+
 def resolve_backend() -> str:
     """Desired backend tier. Order: explicit env > Gemini key > OpenAI key > Ollama > scripted.
 
@@ -58,9 +64,10 @@ def resolve_backend() -> str:
     not yet available, so the offline tier is always the floor.
     """
     explicit = os.getenv("HA_BACKEND", "").strip().lower()
-    if explicit:
+    if explicit and explicit != "auto":
         return explicit
-    if os.getenv("GEMINI_API_KEY"):
+    # auto / empty -> detection chain (scripted is the always-available floor)
+    if gemini_api_key():
         return "gemini"
     if os.getenv("OPENAI_API_KEY"):
         return "openai"
