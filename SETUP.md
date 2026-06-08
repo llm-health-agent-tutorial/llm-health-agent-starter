@@ -21,10 +21,19 @@ You should see PASS for Python, Core libraries, and Teaching dataset. The Backen
 `scripted` unless you set up a key/model (next, optional).
 
 ## 3. (Optional) a live model
-Everything works on the **scripted** backend with no key. For the full live experience either:
-- set `GEMINI_API_KEY` or `OPENAI_API_KEY` in `.env`, **or**
-- run a local model: install [Ollama](https://ollama.com), then **on home wifi** `make ollama-pull`
+Everything works on the **scripted** backend with no key or extra install. For the full live
+experience, **first add the provider SDKs** — they are *not* in the default install:
+```bash
+make live-install                       # adds the openai / google-genai / ollama SDKs (uv users)
+# pip users:  pip install -r requirements-live.txt
+```
+Then pick a backend:
+- **API key** — set `OPENAI_API_KEY`, or `GEMINI_API_KEY` (alias: `GOOGLE_API_KEY`) in `.env`.
+- **Local model** — install [Ollama](https://ollama.com), then **on home wifi** `make ollama-pull`
   (pulls `llama3.1:8b`; `qwen2.5:7b` is a smaller alternative). Don't pull at the venue.
+
+Re-run `ha-check` to confirm the active tier. If a key/model is set but the SDK is missing, it
+falls back to scripted and prints the exact fix (`make live-install`).
 
 ## 4. Open the notebooks
 ```bash
