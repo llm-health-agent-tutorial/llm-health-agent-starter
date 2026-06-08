@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.10", "3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+      - name: Install from the lockfile (canonical)
+        run: uv sync --locked --extra dev --python ${{ matrix.python }}
+      - name: Verify committed dataset matches the generator + teaching signal
+        run: uv run python -m pytest tests/test_data_pattern.py -q -p no:warnings
+      - name: Run test suite
+        run: uv run python -m pytest -q -p no:warnings
+
+  install-script:
+    # Exercises the real participant installer on each OS (the round-5 Windows gate).
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: POSIX installer
+        if: runner.os != 'Windows'
+        run: HA_TEST_INSTALL=1 bash install.sh && ha-check
+        shell: bash
+      - name: Windows installer
+        if: runner.os == 'Windows'
+        run: powershell -ExecutionPolicy Bypass -File .\install.ps1
+        shell: pwsh

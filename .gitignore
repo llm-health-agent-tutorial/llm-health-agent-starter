@@ -1,0 +1,26 @@
+# OS / editor
+.DS_Store
+.vscode/
+*.swp
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets / local config
+.env
+*.key
+
+# Runtime artifacts
+cache/
+figures/
+offline-pack-*/
+
+# NOTE: data/ is intentionally COMMITTED (committed parquet + csv teaching dataset).

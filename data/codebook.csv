@@ -1,0 +1,30 @@
+metric,table,dtype,unit,description,aliases
+total_sleep_hours,sleep,float,hours,Total time asleep per night,sleep;sleep_hours;sleep_duration;duration;f_slp:duration
+sleep_efficiency,sleep,float,ratio_0_1,Fraction of time in bed spent asleep,efficiency;f_slp:efficiency
+sleep_onset_hhmm,sleep,float,decimal_hour,Clock time of sleep onset (decimal hour; may exceed 24 for post-midnight),onset;bedtime;sleep_onset
+wake_hhmm,sleep,float,decimal_hour,Clock time of waking (decimal hour),wake;wake_time
+awakenings,sleep,int,count,Number of awakenings during the night,wakeups;night_awakenings
+deep_pct,sleep,float,ratio_0_1,Fraction of sleep in deep stage,deep_sleep;deep
+rem_pct,sleep,float,ratio_0_1,Fraction of sleep in REM stage,rem;rem_sleep
+resting_hr_bpm,heart_rate,int,bpm,Daily resting heart rate,resting_hr;rhr;resting_heart_rate
+avg_hr_bpm,heart_rate,int,bpm,Daily average heart rate,avg_hr;average_hr
+max_hr_bpm,heart_rate,int,bpm,Daily maximum heart rate,max_hr
+hrv_rmssd_ms,heart_rate,float,ms,Heart-rate variability (RMSSD),hrv;rmssd
+steps,steps,int,count,Daily step count,step_count;f_steps:count;daily_steps
+active_minutes,steps,int,minutes,Daily active minutes,active_min;activity_minutes
+sedentary_minutes,steps,int,minutes,Daily sedentary minutes,sedentary_min
+distance_km,steps,float,km,Daily distance walked,distance
+floors,steps,int,count,Floors climbed,flights
+time_at_home_hours,location,float,hours,Hours spent at home,home_hours;f_loc:home_hours
+num_places_visited,location,int,count,Distinct places visited,places;num_places
+location_entropy,location,float,nats,Entropy of location distribution,entropy;f_loc:entropy
+total_distance_km,location,float,km,Total distance traveled (location),travel_distance
+total_screen_minutes,screen_time,int,minutes,Total daily screen time,screen_time;total_screen;f_screen:total
+night_screen_minutes,screen_time,int,minutes,Screen time in the 22:00-02:00 window,night_screen;screen_time_night;night_screen_time;f_screen:night
+pickups,screen_time,int,count,Phone pickups per day,phone_pickups;unlocks
+social_app_minutes,screen_time,int,minutes,Minutes in social apps,social_minutes;social
+mood,ema,int,likert_1_5,Self-reported mood (1 low - 5 high),
+stress,ema,int,likert_1_5,Self-reported stress (1 low - 5 high),
+energy,ema,int,likert_1_5,Self-reported energy (1 low - 5 high),
+perceived_sleep_quality,ema,int,likert_1_5,Self-rated sleep quality (1 poor - 5 great),sleep_quality;perceived_sleep
+phq2_score,ema,int,score_0_6,PHQ-2 depression screen score,phq2

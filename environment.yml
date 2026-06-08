@@ -1,0 +1,13 @@
+# Conda alternative that PINS the interpreter (fixes "system Python 3.13/3.14 has no wheels").
+#   conda env create -f environment.yml
+#   conda activate health-agent
+#   pip install -e .
+name: health-agent
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - -e .
+      - jupyterlab==4.3.4
+      - ipykernel==6.29.5

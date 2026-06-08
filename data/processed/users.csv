@@ -1,0 +1,13 @@
+user_id,age_band,sex,chronotype,sleep_goal_hours,steps_goal,enrolled_on
+u01,18-24,F,early,7.2,8000,2026-01-24
+u02,25-34,M,intermediate,7.5,8000,2026-02-13
+u03,35-44,nonbinary,late,8.0,8000,2026-02-02
+u04,45-54,F,early,7.8,6000,2026-01-21
+u05,18-24,M,intermediate,7.8,6000,2026-02-02
+u06,25-34,nonbinary,late,7.7,8000,2026-02-02
+u07,35-44,F,early,6.8,8000,2026-01-30
+u08,45-54,M,intermediate,7.8,10000,2026-02-11
+u09,18-24,nonbinary,late,7.6,8000,2026-02-12
+u10,25-34,F,early,7.2,6000,2026-02-09
+u11,35-44,M,intermediate,7.3,6000,2026-01-16
+u12,45-54,nonbinary,late,7.7,10000,2026-01-18
