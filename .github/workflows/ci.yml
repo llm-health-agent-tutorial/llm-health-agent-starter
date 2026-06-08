@@ -39,8 +39,8 @@ jobs:
         run: uv sync --locked --extra dev --extra openai --extra gemini --extra ollama --python 3.11
       - name: live-install target expands to the exact locked uv command
         run: make -n live-install | grep -- "uv sync --locked --extra notebooks --extra dev --extra openai --extra gemini --extra ollama"
-      - name: Contract + factory tests (no network)
-        run: uv run python -m pytest tests/test_client_factory.py tests/test_provider_contract.py -q -p no:warnings
+      - name: Contract + factory + local-ha-check tests (no network; needs the SDKs installed)
+        run: uv run python -m pytest tests/test_client_factory.py tests/test_provider_contract.py tests/test_verify.py -q -p no:warnings
 
   notebooks:
     # Headless notebook regression: even with fake live keys set, the core cells run on the scripted
@@ -71,7 +71,9 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - name: POSIX installer
         if: runner.os != 'Windows'
-        run: HA_TEST_INSTALL=1 bash install.sh && ha-check
+        # install.sh activates the venv and runs `ha-check` internally (aborting on failure), so a
+        # trailing `&& ha-check` would just fail with command-not-found in the non-activated step shell.
+        run: HA_TEST_INSTALL=1 bash install.sh
         shell: bash
       - name: Windows installer
         if: runner.os == 'Windows'

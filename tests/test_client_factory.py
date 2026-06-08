@@ -33,6 +33,7 @@ def test_scripted_is_scripted():
     assert C.get_client("scripted", quiet=True).provider == "scripted"
 
 
+@pytest.mark.provider_contract  # needs the openai SDK importable to reach the CREDENTIAL check
 def test_missing_credential(monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     monkeypatch.delenv("HA_BACKEND", raising=False)

@@ -1,9 +1,17 @@
 """ha-check is local-only: fake cloud keys must not trigger a network call, and the backend row
-reports configured-not-verified (with the typed fallback reason when it falls back)."""
+reports configured-not-verified (with the typed fallback reason when it falls back).
+
+Both tests need the openai SDK *installed* (so the row is "configured, not verified" rather than a
+MissingSDK fallback), so the whole module is marked provider_contract: deselected from the no-SDK
+offline-core matrix, run in the dedicated provider-contract job (which installs the live SDKs)."""
 import contextlib
+
+import pytest
 
 from healthagent import verify
 from healthagent.llm import client as C
+
+pytestmark = pytest.mark.provider_contract
 
 
 @contextlib.contextmanager
