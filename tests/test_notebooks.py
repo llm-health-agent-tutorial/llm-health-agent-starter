@@ -21,7 +21,7 @@ ep_mod = pytest.importorskip("nbconvert.preprocessors")
 
 ROOT = Path(__file__).resolve().parent.parent
 NB_DIR = ROOT / "notebooks"
-CORE_NOTEBOOKS = ["00_preflight.ipynb", "02_setting_up.ipynb",
+CORE_NOTEBOOKS = ["00_preflight.ipynb", "02_setting_up.ipynb", "03_designing_tools.ipynb",
                   "04_wiring_the_agent.ipynb", "05_eval_safety.ipynb"]
 
 
@@ -50,5 +50,8 @@ def test_core_notebook_runs_on_scripted(name):
             if isinstance(data, dict):
                 texts.append(str(data.get("text/plain", "")))
     blob = "\n".join(texts)
-    assert "Skipping live backend cell" in blob, f"{name}: optional live cell was not gated off"
     assert "Traceback" not in blob, f"{name}: a cell raised"
+    # Only notebooks that actually have an optional live cell must show it gated off (M3 has none).
+    src = "\n".join(c.get("source", "") for c in nb.cells)
+    if "HA_TRY_LIVE" in src:
+        assert "Skipping live backend cell" in blob, f"{name}: optional live cell was not gated off"
