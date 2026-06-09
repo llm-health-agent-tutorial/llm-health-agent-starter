@@ -19,25 +19,33 @@ for multimodal health sensing. It describes no real person.
 
 ## The seeded teaching signal (disclosed on purpose)
 To make the demo question *"Why have I been sleeping poorly this week?"* answerable from the
-data, the generator **seeds a single driver** in **`u01`'s final 7 days only**:
+data, the generator **seeds the story** in **`u01`'s final 7 days only**:
 
 > Night-time screen use (`night_screen_minutes`, the 22:00–02:00 window) is elevated ~6–10×
-> above `u01`'s prior baseline, and sleep is generated as **causally downstream** of it
-> (later onset, less total sleep ≈ 5.7 h, lower efficiency, more awakenings, worse EMA mood/
-> energy/perceived sleep quality). Plausible **non-drivers** (`steps`, `resting_hr_bpm`,
-> `hrv_rmssd_ms`, caffeine) are held flat across that window, so the signal is clean.
+> above `u01`'s prior baseline, and total sleep is generated as **causally downstream** of it
+> (recent ≈ **5.65 h** vs ≈ **7.44 h** baseline; later onset, lower efficiency, more awakenings,
+> worse EMA mood/energy/perceived sleep quality). Plausible **non-drivers** (`resting_hr_bpm`,
+> `hrv_rmssd_ms`, `caffeine_after_6pm`) are held flat across that window, so the screen signal is clean.
+
+**A real confound, collinear with the signal.** That same week carries a
+`context.event = "deadline"` that is a **genuine common cause**: the generator makes the deadline
+*independently* cost ~0.45 h of sleep **and** drive the high night-screen use. Because the deadline
+and the screen spike **coincide perfectly** in `u01`'s week, they are **collinear** — from this one
+person's data you cannot separate "screen time" from "the deadline." (The screen→sleep coefficient was
+rebalanced when the deadline path was added, so `u01`'s observed recent sleep stays ≈ 5.65 h and the
+demo numbers are unchanged.)
 
 A secondary seeded pattern: `u01`'s steps run ~25% under their `steps_goal` in the final week
 (weekends worst), so *"How does my activity compare to my goal?"* is also answerable.
 
 ### Ground truth vs. evidence — the M5 point
-The generator *knows* the causal rule (synthetic ground truth). **The agent does not.** From
-tool outputs the agent only observes an **association** between night screen-time and sleep.
-Participant-facing answers must therefore say *"the most plausible contributor in this
-synthetic dataset"* and carry a correlation-≠-causation caveat — never claim proven cause.
-Module 5 uses this gap, plus a **seeded confound** (a `caffeine_after_6pm` flag and a
-`context.event = "deadline"` co-occurring with the screen-time spike), to discuss why
-observational evidence under-determines causation.
+The generator *knows* the causal rules (synthetic ground truth). **The agent does not.** From tool
+outputs it only observes an **association** between night screen-time and sleep — plus a co-occurring
+deadline it cannot disentangle. Participant-facing answers must therefore say *"the most plausible
+contributor in this synthetic dataset"* and carry a correlation-≠-causation caveat — never claim
+proven cause. Module 5 uses this: the deadline is a **real confound that is collinear** with the screen
+spike, so the data genuinely under-determines the cause; the `query_context` advanced exercise
+(Module 4) surfaces both the deadline and the (held-flat) caffeine flag.
 
 ## Out of scope
 Not real data, not clinical data, not validated for any health inference. See

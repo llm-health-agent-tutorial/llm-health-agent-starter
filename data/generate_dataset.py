@@ -32,6 +32,8 @@ DEMO_USER = "u01"
 RECENT_DAYS = 7                       # "this/final week"
 BASELINE_DAYS = 21                    # prior 3 weeks (change-detection baseline)
 NIGHT_SCREEN_BASELINE = 15.0          # minutes (22:00-02:00)
+DEADLINE_SLEEP_PENALTY = 0.45         # hours; a deadline independently costs sleep -> a genuine
+                                      # common cause of BOTH high night-screen and poor sleep (M5 confound)
 STEPS_GOALS = [6000, 8000, 10000]
 
 HERE = Path(__file__).resolve().parent
@@ -135,12 +137,15 @@ def build() -> dict[str, pd.DataFrame]:
             event[recent] = "deadline"
             caffeine[recent] = caffeine[N_DAYS - 2 * RECENT_DAYS:N_DAYS - RECENT_DAYS]  # held at baseline level
 
-        # --- sleep: causally downstream of night_screen (structural eqs before noise) ---
+        # --- sleep: causally downstream of night_screen AND the deadline (a common cause) ---
+        deadline_ind = (event == "deadline").astype(float)
         base_onset = t["base_onset"] + np.where(is_weekend, 0.4, 0.0)
         sleep_onset = base_onset + 0.018 * (night_screen - NIGHT_SCREEN_BASELINE) + _ar1(rng, N_DAYS, 0.3, 0.2)
         total_sleep = (
             t["baseline_sleep_hours"]
-            - 0.02 * (night_screen - NIGHT_SCREEN_BASELINE)
+            - 0.0145 * (night_screen - NIGHT_SCREEN_BASELINE)   # screen -> sleep
+            - DEADLINE_SLEEP_PENALTY * deadline_ind             # deadline -> sleep (independent path; in u01's
+                                                                # week it is COLLINEAR with the screen spike)
             + _ar1(rng, N_DAYS, 0.3, 0.25)
         ).clip(3.5, 10.0)
         efficiency = (0.90 - 0.0015 * (night_screen - NIGHT_SCREEN_BASELINE) + rng.normal(0, 0.02, N_DAYS)).clip(0.6, 0.99)
