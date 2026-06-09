@@ -1,0 +1,16 @@
+{
+  "name": "llm-health-agent-starter",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -r requirements.txt && pip install -e . --no-deps && (python -m healthagent.verify || true)",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "8888": { "label": "JupyterLab" }
+  }
+}

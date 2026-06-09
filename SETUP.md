@@ -13,6 +13,10 @@ The installer uses **uv** to provision **Python 3.11** (fresh 2026 laptops often
 which lack wheels for the pinned scientific stack). If you don't have `uv`, install it from
 <https://docs.astral.sh/uv/> (one line) or use conda: `conda env create -f environment.yml`.
 
+**Can't install locally?** As a backup you can run the whole tutorial in the browser (no install) via
+**GitHub Codespaces** or **Binder** — see *"Run in your browser"* in the [README](README.md). Local
+install is still recommended; the browser options are a safety net.
+
 ## 2. Verify
 ```bash
 ha-check

@@ -1,0 +1,3 @@
+# Binder (mybinder.org) build config. Reuse the repo's locked scripted-backend deps
+# (the offline tutorial needs no API keys). The project package itself is installed in postBuild.
+-r ../requirements.txt

@@ -18,6 +18,20 @@ make lab                 # JupyterLab on notebooks/  (pick the "health-agent" ke
 No API key? No network? You're still fine: the deterministic **scripted** backend runs the entire
 tutorial offline. See [SETUP.md](SETUP.md) (do this at home ~2 weeks before).
 
+## Run in your browser (no install)
+Laptop trouble, or just want to peek? Two zero-install options *(active once the repo is public)*:
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/llm-health-agent-tutorial/llm-health-agent-starter)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/llm-health-agent-tutorial/llm-health-agent-starter/main?urlpath=lab/tree/notebooks/00_preflight.ipynb)
+
+- **Codespaces** — full VS Code in the browser with the environment pre-installed (needs a GitHub
+  account + free-tier hours). Open the notebooks directly, or run `make lab` / `ha-check` in the terminal.
+- **Binder** — opens JupyterLab, no account needed. Good as a backup, but **ephemeral** (edits are lost
+  when the session times out) and the first launch can take a few minutes.
+
+Both boot on the **scripted** backend (no key needed); for live models, run `make live-install` in the
+browser terminal. **Local install (above) is still the recommended path** — do it at home beforehand.
+
 ## What you'll do (by module)
 | Module | You do | Output |
 | --- | --- | --- |

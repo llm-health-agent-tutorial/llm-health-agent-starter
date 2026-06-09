@@ -1,0 +1,5 @@
+#!/bin/bash
+# Install the local package (deps already came from .binder/requirements.txt -> ../requirements.txt).
+set -euo pipefail
+pip install -e . --no-deps
+python -m healthagent.verify || true   # informational; the scripted floor always works
