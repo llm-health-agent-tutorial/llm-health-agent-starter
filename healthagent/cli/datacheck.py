@@ -109,7 +109,8 @@ def check_dataset(processed, tables: list[str] | None = None):
         elif missing:
             status, note = "partial", f"missing columns: {missing}"
         else:
-            status, note = "ok", "all codebook columns present"
+            status = "ok"
+            note = "all codebook columns present" if canon else "keys present; no codebook metrics for this table"
         status_by[table] = status
         rows.append({"table": table, "status": status, "note": note})
 

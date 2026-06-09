@@ -22,7 +22,8 @@ Your data is a directory of per-table files — `processed/{table}.parquet` (a `
 - See [`data/DATA_CARD.md`](data/DATA_CARD.md) for the full table/column reference.
 
 Two starting points live in [`data/adapters/`](data/adapters/):
-- `adapter_template.py` — a skeleton: fill in `read_my_export()` → it writes the per-table files.
+- `adapter_template.py` — a skeleton: fill in `read_my_export()`, then `python … adapter_template.py
+  --out ~/my_dataset` writes the per-table files (it refuses to overwrite the repo's committed `data/`).
 - `example_tidy_csv.py` — a worked example mapping a long/tidy CSV (`user_id,date,metric,value`,
   aliases allowed) into the per-table schema.
 
