@@ -9,14 +9,17 @@ from dotenv import load_dotenv
 
 # Repo root = parent of the healthagent package directory.
 ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(ROOT / ".env")  # load first, so HA_DATA_DIR (etc.) may come from .env as well as the shell
+
 DATA_DIR = ROOT / "data"
-PROCESSED = DATA_DIR / "processed"
+# Bring-your-own-data: HA_DATA_DIR (if set) is the directory that CONTAINS a processed/ subdir — i.e.
+# the parent of processed/, mirroring the repo's data/. Must be set before the first data load
+# (data.load_table is lru-cached). The codebook stays in-repo: it defines the target schema.
+PROCESSED = Path(os.getenv("HA_DATA_DIR", DATA_DIR)) / "processed"
 CODEBOOK = DATA_DIR / "codebook.csv"
 GOLDEN = DATA_DIR / "golden"
 CACHE = ROOT / "cache"
 FIGURES = CACHE / "figures"
-
-load_dotenv(ROOT / ".env")
 
 # Dataset epoch + windows (mirror data/generate_dataset.py).
 SEED = 2026

@@ -34,9 +34,12 @@ ollama = ["ollama>=0.4"]
 
 [project.scripts]
 ha-check = "healthagent.verify:main"
+ha-chat = "healthagent.cli.chat:main"
+ha-eval = "healthagent.cli.eval:main"
+ha-data-check = "healthagent.cli.datacheck:main"
 
 [tool.setuptools]
-packages = ["healthagent", "healthagent.llm", "healthagent.tools", "healthagent.agent", "healthagent.safety"]
+packages = ["healthagent", "healthagent.llm", "healthagent.tools", "healthagent.agent", "healthagent.safety", "healthagent.cli"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

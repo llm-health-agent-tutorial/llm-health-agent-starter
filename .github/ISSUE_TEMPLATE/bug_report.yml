@@ -1,0 +1,26 @@
+name: Bug report
+description: Something isn't working
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you got (include any traceback).
+    validations:
+      required: true
+  - type: textarea
+    id: ha-check
+    attributes:
+      label: ha-check output
+      description: Paste the `ha-check` table, or note which row failed.
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Backend
+      options: [scripted, ollama, openai, gemini]
+  - type: input
+    id: env
+    attributes:
+      label: OS + Python
+      placeholder: "macOS 14 / Python 3.11 (uv)"

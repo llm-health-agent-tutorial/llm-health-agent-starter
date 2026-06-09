@@ -80,5 +80,21 @@ medical advice.
 | Teaching dataset FAIL | `python data/generate_dataset.py` (or `make data`) |
 | kernel not in venv (notebook) | pick the **health-agent** Jupyter kernel (cell prints `sys.executable`) |
 
+## Beyond the tutorial
+- **[BRING_YOUR_OWN_DATA.md](BRING_YOUR_OWN_DATA.md)** — point the agent at your own wearable/sensing
+  data (`HA_DATA_DIR` + `ha-data-check`).
+- **[EXTENDING.md](EXTENDING.md)** / **[docs/cookbook.md](docs/cookbook.md)** — add tools, metrics,
+  backends, probes; short runnable recipes.
+- CLIs: `ha-chat` (chat over the data), `ha-eval` (red-team scorecard across backends),
+  `ha-data-check` (validate a dataset).
+
+## Citation
+If you use this repository or its teaching material, please cite it — see [CITATION.cff](CITATION.cff)
+(GitHub's "Cite this repository" button renders it).
+
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) and the [ROADMAP.md](ROADMAP.md). Data adapters for real exports
+are a great first contribution.
+
 ## License
 MIT — see [LICENSE](LICENSE).

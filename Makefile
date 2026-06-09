@@ -1,4 +1,4 @@
-.PHONY: install live-install verify data lab test solutions ollama-pull clean
+.PHONY: install live-install verify data lab test solutions ollama-pull clean chat eval data-check
 VENV ?= .venv
 PY ?= $(shell if [ -x "$(VENV)/bin/python" ]; then echo "$(VENV)/bin/python"; else command -v python 2>/dev/null || command -v python3; fi)
 JUPYTER ?= $(shell if [ -x "$(VENV)/bin/jupyter" ]; then echo "$(VENV)/bin/jupyter"; else command -v jupyter; fi)
@@ -17,6 +17,15 @@ live-install:   ## add the live LLM SDKs (opt-in; needed for a key/Ollama-backed
 
 verify:         ## run the preflight check
 	$(PY) -m healthagent.verify
+
+chat:           ## chat with the agent over the dataset (ha-chat); use Q="..." for one-shot
+	$(PY) -m healthagent.cli.chat $(if $(Q),--question "$(Q)",)
+
+eval:           ## red-team probe scorecard across backends (PROVIDERS=scripted,openai,...)
+	$(PY) -m healthagent.cli.eval $(if $(PROVIDERS),--providers $(PROVIDERS),)
+
+data-check:     ## validate a dataset against the codebook (BYOD; honors HA_DATA_DIR)
+	$(PY) -m healthagent.cli.datacheck $(if $(TABLES),--tables $(TABLES),)
 
 data:           ## (re)generate the committed synthetic dataset
 	$(PY) data/generate_dataset.py

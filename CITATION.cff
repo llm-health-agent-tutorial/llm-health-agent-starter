@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "Prototyping Your Personal LLM Health Agent — Starter Repository"
+message: "If you use this software or teaching material, please cite it using this metadata."
+type: software
+authors:
+  - given-names: Zhihan
+    family-names: Jiang
+  - given-names: Will Ke
+    family-names: Wang
+  - given-names: Georgianna
+    family-names: Lin
+  - given-names: Brenna
+    family-names: Li
+  - given-names: Xuhai
+    family-names: Xu
+repository-code: "https://github.com/llm-health-agent-tutorial/llm-health-agent-starter"
+url: "https://llm-health-agent-tutorial.github.io/"
+license: MIT
+year: 2026
+keywords:
+  - LLM agents
+  - mobile health
+  - wearable sensing
+  - ubiquitous computing
+  - tool use

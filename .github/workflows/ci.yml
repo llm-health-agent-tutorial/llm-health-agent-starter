@@ -21,8 +21,8 @@ jobs:
         uses: astral-sh/setup-uv@v3
       - name: Install from the lockfile (canonical, no live extras)
         run: uv sync --locked --extra dev --python ${{ matrix.python }}
-      - name: Adapter modules import WITHOUT their provider SDKs (lazy import + package completeness)
-        run: uv run python -c "import healthagent.llm.errors, healthagent.llm.openai_client, healthagent.llm.gemini_client, healthagent.llm.ollama_client, healthagent.agent.live_policy; print('adapter modules import clean with no SDKs installed')"
+      - name: Adapter + reference + CLI modules import without provider SDKs (lazy import + package completeness)
+        run: uv run python -c "import healthagent.llm.errors, healthagent.llm.openai_client, healthagent.llm.gemini_client, healthagent.llm.ollama_client, healthagent.agent.live_policy, healthagent.agent.reference, healthagent.cli.chat, healthagent.cli.eval, healthagent.cli.datacheck; print('adapter + reference + CLI modules import clean with no SDKs installed')"
       - name: Verify committed dataset matches the generator + teaching signal
         run: uv run python -m pytest tests/test_data_pattern.py -q -p no:warnings
       - name: Run offline-core test suite (provider-contract tests run in their own job)
@@ -58,6 +58,29 @@ jobs:
           OPENAI_API_KEY: sk-fake
           GEMINI_API_KEY: fake-gemini-key
         run: uv run python -m pytest tests/test_notebooks.py -q -p no:warnings
+
+  packaging:
+    # Packaging contract: the package is complete enough that the console scripts work from a
+    # NON-editable wheel (no repo on disk), and the CLIs / reference never import the unpackaged
+    # ha_workshop tree (a negative the editable import-smoke can't prove on its own).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Static guard — no ha_workshop import in the CLIs / reference
+        run: "! grep -rn ha_workshop healthagent/cli healthagent/agent/reference.py"
+      - name: Non-editable wheel install + script-registration smoke (no repo data/ present)
+        run: |
+          python -m venv /tmp/wheelenv
+          /tmp/wheelenv/bin/pip install --quiet .
+          # CLI modules import with NO repo data/ (lazy: they don't open the codebook at import).
+          /tmp/wheelenv/bin/python -c "import healthagent.cli.chat, healthagent.cli.eval, healthagent.cli.datacheck; print('CLI package imports from a wheel')"
+          # console scripts are registered + their --help is import-clean (no codebook needed).
+          /tmp/wheelenv/bin/ha-data-check --help
+          /tmp/wheelenv/bin/ha-eval --help
+          /tmp/wheelenv/bin/ha-chat --help
 
   install-script:
     # Exercises the real participant installer on each OS (the round-5 Windows gate).
