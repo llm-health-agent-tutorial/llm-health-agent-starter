@@ -30,7 +30,8 @@ Laptop trouble, or just want to peek? Two zero-install options *(active once the
   when the session times out) and the first launch can take a few minutes.
 
 Both boot on the **scripted** backend (no key needed); for live models, run `make live-install` in the
-browser terminal. **Local install (above) is still the recommended path** — do it at home beforehand.
+browser terminal (`uv` when available, otherwise pip). **Local install (above) is still the
+recommended path** — do it at home beforehand.
 
 ## What you'll do (by module)
 | Module | You do | Output |

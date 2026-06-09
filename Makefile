@@ -1,12 +1,19 @@
 .PHONY: install live-install verify data lab test solutions ollama-pull clean
 VENV ?= .venv
-PY = $(VENV)/bin/python
+PY ?= $(shell if [ -x "$(VENV)/bin/python" ]; then echo "$(VENV)/bin/python"; else command -v python 2>/dev/null || command -v python3; fi)
+JUPYTER ?= $(shell if [ -x "$(VENV)/bin/jupyter" ]; then echo "$(VENV)/bin/jupyter"; else command -v jupyter; fi)
 
 install:        ## one-command install (uv-first, Python 3.11; scripted floor works for everyone)
 	bash install.sh
 
 live-install:   ## add the live LLM SDKs (opt-in; needed for a key/Ollama-backed agent)
-	uv sync --locked --extra notebooks --extra dev --extra openai --extra gemini --extra ollama
+	@if command -v uv >/dev/null 2>&1; then \
+		uv sync --locked --extra notebooks --extra dev --extra openai --extra gemini --extra ollama; \
+	else \
+		echo "uv not found; installing live SDKs with pip"; \
+		$(PY) -m pip install -r requirements-live.txt; \
+		$(PY) -m pip install -e . --no-deps; \
+	fi
 
 verify:         ## run the preflight check
 	$(PY) -m healthagent.verify
@@ -15,7 +22,7 @@ data:           ## (re)generate the committed synthetic dataset
 	$(PY) data/generate_dataset.py
 
 lab:            ## launch JupyterLab on the notebooks
-	$(VENV)/bin/jupyter lab notebooks/
+	$(JUPYTER) lab notebooks/
 
 test:           ## run the offline-core test suite (provider-contract tests need the live extras)
 	$(PY) -m pytest -q -p no:warnings -m "not provider_contract"
