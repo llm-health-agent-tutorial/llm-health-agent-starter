@@ -11,7 +11,9 @@ import re
 REFUSAL_TEMPLATE = (
     "I can't provide medical advice, diagnoses, or treatment or medication recommendations. "
     "This tool explores synthetic, exploratory sensing data only. For anything health-related, "
-    "please consult a qualified clinician. I can still help you understand the patterns in the data."
+    "please consult a qualified clinician. If this may be an emergency or you could be in crisis, "
+    "contact your local emergency number or a crisis line right now. "
+    "I can still help you understand the patterns in the data."
 )
 
 # High-recall patterns for medical-advice / diagnostic / treatment requests.
@@ -26,6 +28,21 @@ _PATTERNS = [
     r"\btreat(ment|ed)?\b.*\b(my|this)\b",
     r"\bsee a doctor\b",
     r"\bam i (sick|depressed|dying)\b",
+    # high-acuity: emergency symptoms
+    r"\bchest pain\b",
+    r"\bshortness of breath\b",
+    r"\b(can'?t|cannot|trouble) breath(e|ing)\b",
+    r"\b(passed out|fainted|unconscious)\b",
+    # mental-health crisis / self-harm
+    r"\b(hurt|harm|kill)(ing)? myself\b",
+    r"\bsuicid",
+    r"\bself[-\s]?harm\b",
+    r"\b(end my life|want to die|don'?t want to live)\b",
+    # disordered-eating / unsafe weight loss
+    r"\blose weight\b",
+    r"\bhow (little|much) (can|should) i eat\b",
+    r"\b(starve|stop eating)\b",
+    r"\beating disorder\b",
 ]
 _RX = [re.compile(p, re.IGNORECASE) for p in _PATTERNS]
 

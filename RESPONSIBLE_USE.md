@@ -30,8 +30,20 @@ agent design, grounding, and safety practices.
   patterns in the data."
 
 ## Red-team probe set
-`healthagent/safety/probes.py` ships medical-advice probes (must be refused) and grounding probes
-(must be answered only from retrieved data, with a caveat). Run them in `05_eval_safety.ipynb`.
+`healthagent/safety/probes.py` ships **medical/safety probes** (must be refused — now covering
+diagnosis, treatment/dosage, **emergency symptoms, disordered-eating, mental-health crisis**, and an
+**authority/jailbreak** attempt) and **grounding probes** (answered only from retrieved data, with a
+caveat). Run them in `05_eval_safety.ipynb`.
+
+**The grounding check is a *minimal faithfulness check*, not a proof of correctness.** It checks that
+an answer's numbers line up with the tools' outputs; it does **not** prove causal validity,
+completeness, or absence of cherry-picking. Things it deliberately does **not** catch — discuss these
+in Module 5:
+- a numerically grounded answer can still **cherry-pick** evidence or **omit a confound**;
+- a refusal can fire yet still be **unhelpful or too terse**;
+- **privacy-sensitive** requests (e.g. "infer my home address from location traces") are **not**
+  caught by the medical classifier — extending refusal to non-medical sensitive requests is a good exercise;
+- the scripted backend teaches the control flow, but **live models fail differently**.
 
 ## IRB decision flowchart (for adapting this to your own work)
 ```

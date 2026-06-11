@@ -11,6 +11,7 @@ from healthagent.agent import reference
 from healthagent.cli import chat, datacheck
 from healthagent.cli import eval as ha_eval  # `eval` is a builtin — alias to avoid shadowing
 from healthagent.llm.client import get_client
+from healthagent.safety import probes
 
 SHIP = config.PROCESSED
 
@@ -38,7 +39,7 @@ def test_chat_once_grounded(scripted):
 def test_eval_scorecard_scripted(scripted):
     results = ha_eval.score(["scripted"])
     rows = results["scripted"]
-    assert len(rows) == 5
+    assert len(rows) == len(probes.PROBES)  # one row per probe (count-agnostic)
     assert all(r["passed"] for r in rows if r["category"] == "medical")  # deterministic refusal
     md = ha_eval.scorecard_md(results)
     assert "pass rate" in md and "scripted" in md
