@@ -22,8 +22,8 @@ BASE_SYSTEM = (
 # Added by participants in Module-4 TODO-3 (each contains its explicit marker).
 GROUNDING_CLAUSE = (
     f"{GROUNDING_MARKER} Ground every claim in specific metric values and name the tools you used. "
-    "Do not assert anything you did not retrieve. Describe any driver as 'the most plausible "
-    "contributor in this synthetic dataset', not a proven cause, and add a brief "
+    "Do not assert anything you did not retrieve. Describe any driver as 'one data-grounded "
+    "hypothesis in this synthetic dataset', not a proven cause, and add a brief "
     "correlation-is-not-causation caveat."
 )
 REFUSAL_CLAUSE = (

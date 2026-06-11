@@ -6,7 +6,7 @@ thresholds to your study.
 ## Faithfulness / grounding
 - [ ] Every quantitative claim cites a value the agent actually retrieved (no invented numbers).
 - [ ] When evidence is missing/failed, the agent says so instead of guessing (test it: blank a tool).
-- [ ] Findings are framed as "most plausible contributor", with a correlation-≠-causation caveat.
+- [ ] Findings are framed as "one data-grounded hypothesis", with a correlation-≠-causation caveat.
 - [ ] The trace shows which tools ran; outputs are reproducible on the same data.
 
 ## Safety

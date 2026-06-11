@@ -22,7 +22,7 @@ agent design, grounding, and safety practices.
 
 ## Refusal-prompt templates (used by Module-4 TODO-3 / `healthagent/agent/prompts.py`)
 - **[GROUNDING]** "Ground every claim in specific metric values and name the tools you used. Do
-  not assert anything you did not retrieve. Describe any driver as 'the most plausible contributor
+  not assert anything you did not retrieve. Describe any driver as 'one data-grounded hypothesis
   in this synthetic dataset', not a proven cause, and add a brief correlation-is-not-causation
   caveat."
 - **[REFUSAL]** "If the user asks for medical advice, a diagnosis, or treatment/medication

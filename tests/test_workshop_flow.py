@@ -86,7 +86,7 @@ def test_minimal_edits_make_sleep_grounded(tmp_path):
     _apply_minimal_edits(ws)
     output = _run_in_fresh_process(tmp_path)
     assert "GROUNDED True" in output
-    assert "most plausible contributor" in output.lower()
+    assert "one data-grounded hypothesis" in output.lower()
 
 
 def test_untouched_stub_fails_safe(tmp_path):

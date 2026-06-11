@@ -7,7 +7,7 @@ re-runs this and checks the embedded teaching signal still holds.
 Honesty note: the dataset deliberately seeds a single discoverable DRIVER in demo
 user u01's final week (night screen-time up -> sleep worse, non-drivers held flat).
 This is a teaching device and is disclosed in data/DATA_CARD.md. Participant-facing
-code must describe findings as "the most plausible contributor in this synthetic
+code must describe findings as "one data-grounded hypothesis in this synthetic
 dataset", never as proven cause.
 
 Usage:  python data/generate_dataset.py        (writes data/processed/*.{parquet,csv})

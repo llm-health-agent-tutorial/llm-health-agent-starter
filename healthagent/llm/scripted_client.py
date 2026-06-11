@@ -144,7 +144,7 @@ def _render(question: str, obs: list[dict], grounding_on: bool) -> str:
         if grounding_on:
             parts = [
                 f"In the final week of the dataset your sleep declined: {dc_sleep}.",
-                f"The most plausible contributor in this synthetic dataset is night-time "
+                f"One data-grounded hypothesis in this synthetic dataset is night-time "
                 f"screen use: {dc_night}.",
             ]
             corr = find("correlate_metrics")

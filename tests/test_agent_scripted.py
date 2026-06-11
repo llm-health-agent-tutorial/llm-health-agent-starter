@@ -36,7 +36,7 @@ def test_solution_answers_sleep_grounded_with_caveat():
     a = sol.run(SLEEP_Q, client=client())
     assert a.grounded
     low = a.text.lower()
-    assert "most plausible contributor" in low and "synthetic" in low
+    assert "one data-grounded hypothesis" in low and "synthetic" in low
     assert "not proof of cause" in low  # carries the causation hedge
     assert a.images, "the sleep demo must render a plot (plot_timeseries)"
 
@@ -63,7 +63,7 @@ def test_stub_fails_safe_on_all_questions():
         a = stub.run(q, client=c)
         assert not a.grounded
         # never a fabricated finding:
-        assert "most plausible contributor" not in a.text.lower()
+        assert "one data-grounded hypothesis" not in a.text.lower()
 
 
 # --- each SINGLE M3 blank left undone must fail safe (not just the all-stub case) ---
@@ -106,7 +106,7 @@ def test_single_m3_blank_fails_safe(blank):
     ans = run_agent(SLEEP_Q, client=client(), registry=reg, observe=_real_observe,
                     system_prompt=SOLUTION_SYSTEM)
     assert not ans.grounded, f"blanking {blank} still produced a grounded answer"
-    assert "most plausible contributor" not in ans.text.lower()
+    assert "one data-grounded hypothesis" not in ans.text.lower()
 
 
 # --- TODO-2 sentinel is ignored as evidence (unit level) ---
