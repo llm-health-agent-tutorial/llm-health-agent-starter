@@ -27,7 +27,14 @@ def test_install_sh_then_import(tmp_path):
         pytest.skip("install.sh is POSIX; Windows uses install.ps1 (covered in CI)")
     repo = tmp_path / "repo"
     _copy_repo(repo)
-    r = subprocess.run(["bash", "install.sh"], cwd=str(repo), capture_output=True, text=True)
+    # install.sh runs `ipykernel install --user`; isolate Jupyter's dirs into tmp_path so it
+    # can't overwrite the real ~/.../Jupyter/kernels — a global 'health-agent' kernel pointing
+    # at this throwaway venv would break JupyterLab once tmp_path is cleaned up.
+    env = {**os.environ,
+           "JUPYTER_DATA_DIR": str(tmp_path / "jupyter" / "data"),
+           "JUPYTER_CONFIG_DIR": str(tmp_path / "jupyter" / "config"),
+           "JUPYTER_RUNTIME_DIR": str(tmp_path / "jupyter" / "runtime")}
+    r = subprocess.run(["bash", "install.sh"], cwd=str(repo), capture_output=True, text=True, env=env)
     assert r.returncode == 0, r.stdout + r.stderr
     # the install created a .venv; the agent imports and answers on the scripted floor
     py = repo / ".venv" / "bin" / "python"
