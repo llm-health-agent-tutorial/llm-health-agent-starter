@@ -28,8 +28,9 @@ GROUNDING_CLAUSE = (
 )
 REFUSAL_CLAUSE = (
     f"{REFUSAL_MARKER} If the user asks for medical advice, a diagnosis, or treatment/medication "
-    "guidance, refuse and recommend consulting a qualified clinician; you may still explain the "
-    "patterns in the data."
+    "guidance, refuse and recommend consulting a qualified clinician. For an apparent medical "
+    "emergency, urge them to contact emergency services; for self-harm or crisis, point them to "
+    "crisis-support resources. You may still explain the patterns in the data."
 )
 
 SOLUTION_SYSTEM = f"{BASE_SYSTEM}\n{GROUNDING_CLAUSE}\n{REFUSAL_CLAUSE}"

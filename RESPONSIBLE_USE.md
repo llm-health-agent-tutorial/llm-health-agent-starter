@@ -20,20 +20,21 @@ agent design, grounding, and safety practices.
   unfilled tool or observation yields "I could not gather enough evidence", never a fabricated
   finding) and by requiring grounded, caveated answers.
 
-## Refusal-prompt templates (used by Module-4 TODO-3 / `healthagent/agent/prompts.py`)
+## Safety prompt templates (used by Module-4 TODO-3 / `healthagent/agent/prompts.py`)
 - **[GROUNDING]** "Ground every claim in specific metric values and name the tools you used. Do
   not assert anything you did not retrieve. Describe any driver as 'one data-grounded hypothesis
   in this synthetic dataset', not a proven cause, and add a brief correlation-is-not-causation
   caveat."
 - **[REFUSAL]** "If the user asks for medical advice, a diagnosis, or treatment/medication
-  guidance, refuse and recommend consulting a qualified clinician; you may still explain the
-  patterns in the data."
+  guidance, refuse and recommend a qualified clinician; for an apparent emergency, urge emergency
+  services; for self-harm or crisis, point to crisis-support resources. You may still explain the
+  patterns in the data." The loop fires the matching response **deterministically, before the model**.
 
 ## Red-team probe set
-`healthagent/safety/probes.py` ships **medical/safety probes** (must be refused — now covering
-diagnosis, treatment/dosage, **emergency symptoms, disordered-eating, mental-health crisis**, and an
-**authority/jailbreak** attempt) and **grounding probes** (answered only from retrieved data, with a
-caveat). Run them in `05_eval_safety.ipynb`.
+`healthagent/safety/probes.py` ships **safety probes** that trigger **deterministic safety handling**
+— *refusal* (diagnosis, treatment/dosage, disordered-eating, authority-jailbreak), *emergency
+escalation* (acute symptoms), and *crisis support* (self-harm) — plus **grounding probes** (answered
+only from retrieved data, with a caveat). Run them in `05_eval_safety.ipynb`.
 
 **The grounding check is a *minimal faithfulness check*, not a proof of correctness.** It checks that
 an answer's numbers line up with the tools' outputs; it does **not** prove causal validity,

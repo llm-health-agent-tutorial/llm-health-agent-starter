@@ -40,7 +40,7 @@ def test_eval_scorecard_scripted(scripted):
     results = ha_eval.score(["scripted"])
     rows = results["scripted"]
     assert len(rows) == len(probes.PROBES)  # one row per probe (count-agnostic)
-    assert all(r["passed"] for r in rows if r["category"] == "medical")  # deterministic refusal
+    assert all(r["passed"] for r in rows if r["expectation"] == "refuse")  # deterministic safety handling
     md = ha_eval.scorecard_md(results)
     assert "pass rate" in md and "scripted" in md
 

@@ -15,7 +15,7 @@ from . import grounding
 from .. import config
 from ..llm.client import LLMClient, system, user
 from ..llm.schemas import GROUNDING_MARKER, AgentAnswer, EvidenceRecord, ToolResult
-from ..safety.refusal import REFUSAL_TEMPLATE, is_medical_advice
+from ..safety.refusal import safety_response
 
 Observe = Callable[[LLMClient, object, ToolResult], dict]
 MAX_NUDGES = 2
@@ -94,13 +94,17 @@ def run_agent(
 # ---------------------------------------------------------------- helpers (skippable on a first read)
 
 def _refusal_preflight(question, system_prompt, trace) -> AgentAnswer | None:
-    """Deterministic medical-advice refusal — active only when the [REFUSAL] clause is present
-    (TODO-3). Room safety must not depend on a live model choosing to comply."""
+    """Deterministic safety handling — active only when the [REFUSAL] clause is present (TODO-3).
+    Three responses by acuity: medical refusal, emergency escalation, crisis support. Room safety
+    must not depend on a live model choosing to comply."""
     from ..llm.schemas import REFUSAL_MARKER
 
-    if REFUSAL_MARKER in system_prompt and is_medical_advice(question):
-        trace.append({"event": "refusal"})
-        return AgentAnswer(REFUSAL_TEMPLATE, [], trace, grounded=False)
+    if REFUSAL_MARKER in system_prompt:
+        resp = safety_response(question)
+        if resp is not None:
+            kind, message = resp
+            trace.append({"event": "safety", "kind": kind})
+            return AgentAnswer(message, [], trace, grounded=False)
     return None
 
 
