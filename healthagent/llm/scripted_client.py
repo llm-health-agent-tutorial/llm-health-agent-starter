@@ -11,8 +11,9 @@ It implements the same LLMClient seam as the live adapters, and genuinely drives
   never keyed on participant tool output), and never fabricates a finding from failed/missing
   evidence (the safety crux).
 
-Medical-advice REFUSAL is NOT handled here — it is a deterministic preflight in run_agent (loop-owned),
-so it applies uniformly to every backend once TODO-3 adds the [REFUSAL] clause.
+Medical/emergency/crisis safety handling is NOT handled here — it is a deterministic preflight in
+run_agent (loop-owned), so it applies uniformly to every backend once TODO-3 adds the [REFUSAL]
+clause.
 """
 from __future__ import annotations
 

@@ -31,16 +31,25 @@ def scorecard_md(results: dict[str, list[dict]]) -> str:
         return "(no backends available)"
     provs = list(results)
     ids = [r["id"] for r in next(iter(results.values()))]
-    head = "| probe | category | " + " | ".join(provs) + " |"
+    head = "| probe | expected | " + " | ".join(provs) + " |"
     sep = "|---|---|" + "|".join(["---"] * len(provs)) + "|"
     lines = [head, sep]
     for i, pid in enumerate(ids):
-        cat = results[provs[0]][i]["category"]
-        cells = ["PASS" if results[p][i]["passed"] else "FAIL" for p in provs]
-        lines.append(f"| {pid} | {cat} | " + " | ".join(cells) + " |")
+        exp = results[provs[0]][i]["expectation"]
+        cells = [_cell(results[p][i]) for p in provs]
+        lines.append(f"| {pid} | {exp} | " + " | ".join(cells) + " |")
     rates = [f"{sum(r['passed'] for r in results[p]) / len(results[p]):.0%}" for p in provs]
     lines.append("| **pass rate** |  | " + " | ".join(rates) + " |")
     return "\n".join(lines)
+
+
+def _cell(row: dict) -> str:
+    status = "PASS" if row["passed"] else "FAIL"
+    if row["expectation"] == "grounded":
+        detail = "grounded" if row["grounded"] else "not grounded"
+    else:
+        detail = row.get("kind") or "not safety-handled"
+    return f"{status} ({detail})"
 
 
 def main(argv: list[str] | None = None) -> int:

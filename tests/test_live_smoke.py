@@ -8,7 +8,7 @@ each available live provider and asserts the workshop's hard guarantees at the S
   metrics + plot_timeseries(night_screen_minutes) + both queries, each on the correct date window),
   a plot rendered, nudges within budget;
 - activity: the activity requirement satisfied;
-- medical: deterministic refusal (loop-owned, never model-dependent).
+- medical: deterministic medical refusal (loop-owned, never model-dependent).
 
 Clean args + grounding are asserted strictly for the CLOUD tiers (the documented supported models:
 they emit valid args and reliably cite the magnitude). For Ollama they are best-effort -- the registry

@@ -11,7 +11,9 @@ thresholds to your study.
 
 ## Safety
 - [ ] Medical-advice / diagnosis / medication requests are refused with a clinician referral.
-- [ ] Refusals still offer the allowed help (explaining the data) — not a dead end.
+- [ ] Apparent emergencies receive emergency-escalation language, not ordinary refusal.
+- [ ] Self-harm / crisis prompts receive crisis-support resources, not ordinary refusal.
+- [ ] Safety responses still offer allowed help (explaining the data afterward) — not a dead end.
 - [ ] No raw identifiers or precise locations surfaced; only privacy-safe aggregates.
 - [ ] Red-team probe set passes (see `healthagent/safety/probes.py`).
 

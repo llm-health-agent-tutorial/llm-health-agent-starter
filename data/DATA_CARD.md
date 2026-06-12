@@ -41,8 +41,8 @@ A secondary seeded pattern: `u01`'s steps run ~25% under their `steps_goal` in t
 ### Ground truth vs. evidence — the M5 point
 The generator *knows* the causal rules (synthetic ground truth). **The agent does not.** From tool
 outputs it only observes an **association** between night screen-time and sleep — plus a co-occurring
-deadline it cannot disentangle. Participant-facing answers must therefore say *"the most plausible
-contributor in this synthetic dataset"* and carry a correlation-≠-causation caveat — never claim
+deadline it cannot disentangle. Participant-facing answers must therefore say *"one data-grounded
+hypothesis in this synthetic dataset"* and carry a correlation-≠-causation caveat — never claim
 proven cause. Module 5 uses this: the deadline is a **real confound that is collinear** with the screen
 spike, so the data genuinely under-determines the cause; the `query_context` advanced exercise
 (Module 4) surfaces both the deadline and the (held-flat) caffeine flag.

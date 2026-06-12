@@ -62,9 +62,11 @@ floor). All four backends are implemented; the live ones need their SDKs (`make 
 key/model is configured but the SDK is missing, `ha-check` prints the exact fix. The **scripted**
 backend is a *deterministic teaching backend*, not a real LLM: it drives the loop (reads your
 registered tools, consumes observations, honors the `[GROUNDING]` clause) so your Module-4 edits
-produce visible behavior changes with no key or network. **Medical-advice refusal is loop-owned** (a
-deterministic preflight in `run_agent`, active once TODO-3 adds the `[REFUSAL]` clause), so it behaves
-identically on every backend rather than depending on a live model's compliance.
+produce visible behavior changes with no key or network. **Safety handling is loop-owned** (a
+deterministic preflight in `run_agent`, active once TODO-3 adds the `[REFUSAL]` clause): medical
+requests get a refusal, apparent emergencies get escalation language, and self-harm/crisis requests
+get crisis-support resources. It behaves identically on every backend rather than depending on a
+live model's compliance.
 
 ## Safety
 Incomplete edits **fail safe**: if a tool isn't implemented or the observation step isn't wired,

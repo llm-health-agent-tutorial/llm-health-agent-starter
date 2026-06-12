@@ -6,7 +6,7 @@ the core minimal and grow value through **docs, adapters, and thin CLIs** — no
 ## Done
 - Offline-complete tutorial (scripted floor) + live backends (Ollama / OpenAI / Gemini).
 - Notebooks for Modules 2–5 with optional "🚀 Advanced" exercises.
-- Eval/safety harness (red-team probes; deterministic refusal; marker-gated grounding).
+- Eval/safety harness (red-team probes; deterministic safety handling; marker-gated grounding).
 - **CLIs:** `ha-chat`, `ha-eval` (cross-model scorecard), `ha-data-check`.
 - **Bring-your-own-data:** `HA_DATA_DIR` + codebook schema + adapter template.
 
