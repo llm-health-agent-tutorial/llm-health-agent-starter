@@ -4,7 +4,7 @@ This is the **portable responsible-use scaffold** that accompanies the pedagogic
 **SACI — Student-AI Collaborative Inquiry** ("From AI-as-Shortcut to AI-as-Partner: Student-AI
 Collaborative Inquiry for Health-Agent Education", Jiang & Xu, UbiComp/ISWC '26 Companion,
 Education Forum, under submission). SACI treats the student-AI pair as co-investigators of the student's
-own multimodal sensor data, with *mutual interrogation* as the central mechanism; its compressed
+own multimodal sensor data, with *mutual interrogation* as the central mechanism; its short-format
 instantiation is the [UbiComp 2026 hands-on tutorial](https://llm-health-agent-tutorial.github.io/)
 built on this repository.
 
