@@ -3,7 +3,7 @@
 This is the **portable responsible-use scaffold** that accompanies the pedagogical model
 **SACI — Student-AI Collaborative Inquiry** ("From AI-as-Shortcut to AI-as-Partner: Student-AI
 Collaborative Inquiry for Health-Agent Education", Jiang & Xu, UbiComp/ISWC '26 Companion,
-Education Forum, to appear). SACI treats the student-AI pair as co-investigators of the student's
+Education Forum, under submission). SACI treats the student-AI pair as co-investigators of the student's
 own multimodal sensor data, with *mutual interrogation* as the central mechanism; its compressed
 instantiation is the [UbiComp 2026 hands-on tutorial](https://llm-health-agent-tutorial.github.io/)
 built on this repository.
@@ -20,7 +20,8 @@ settings are welcome (see `CONTRIBUTING.md`).
 | Responsible-use statement: scope boundaries, insufficient-evidence paths, evidence-provenance norms | [`RESPONSIBLE_USE.md`](RESPONSIBLE_USE.md) |
 | Refusal-prompt templates (three deterministic tiers: medical refusal / emergency escalation / crisis support) | [`healthagent/safety/refusal.py`](healthagent/safety/refusal.py) |
 | Red-team probe set (adversarial + ambiguous/grounding) with runnable harness | [`healthagent/safety/probes.py`](healthagent/safety/probes.py), [`notebooks/05_eval_safety.ipynb`](notebooks/05_eval_safety.ipynb) |
-| Safety & faithfulness evaluation checklist | [`templates/eval_safety_checklist.md`](templates/eval_safety_checklist.md) |
+| Data-retention and emergency-escalation guidance | retention: consent-checklist items below (export/deletion, post-course persistence, zero-retention API terms); escalation: emergency/crisis tiers in [`refusal.py`](healthagent/safety/refusal.py) + crisis-probe debrief below |
+| Safety & faithfulness evaluation checklist (supplementary artifact, beyond the paper's list) | [`templates/eval_safety_checklist.md`](templates/eval_safety_checklist.md) |
 | IRB decision flowchart | [`RESPONSIBLE_USE.md`](RESPONSIBLE_USE.md#irb-decision-flowchart-for-adapting-this-to-your-own-work) |
 | Counter-evidence (anti-sycophancy) verification prompt | below |
 | Classroom consent & data-governance minimums | below |
