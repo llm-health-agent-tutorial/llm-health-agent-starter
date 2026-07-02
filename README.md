@@ -8,6 +8,10 @@ scaffold and ask it open-ended questions over a synthetic multimodal sensing dat
 > Part 1 of a two-part track (Part 2 is the GLOSS multi-agent tutorial). This repo builds **one**
 > agent from scratch; multi-agent is discussed, not built.
 
+> Looking for the **SACI responsible-use scaffold** (refusal templates, red-team probes,
+> consent minimums, IRB flowchart) from the Education Forum paper? It lives in
+> [`SACI_SCAFFOLD.md`](SACI_SCAFFOLD.md).
+
 ## Quickstart (5 min)
 ```bash
 git clone https://github.com/llm-health-agent-tutorial/llm-health-agent-starter.git && cd llm-health-agent-starter
