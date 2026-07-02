@@ -33,7 +33,7 @@ settings are welcome (see `CONTRIBUTING.md`).
 
 Default LLM assistants tend to sycophantically ratify the user's framing, so the agent's side of
 mutual interrogation — volunteering evidence that *complicates* the student's hypothesis — is a
-design requirement, not an emergent property. Students engineer it themselves in Phases 2–3; the
+design requirement, not an emergent property. Students engineer it themselves in Phase 3; the
 reference prompt below is the **fallback** that guarantees every student still experiences the
 mechanism even when their own build does not yet produce it. Use it as the system-prompt clause of
 a verification sub-agent (multi-agent setups) or as an extra check in the grounded-response step
@@ -49,7 +49,7 @@ evidence cannot distinguish between hypotheses, say so instead of choosing one.
 
 ## Classroom consent & data-governance minimums
 
-Use as a syllabus/consent checklist. Students' personal health data enter classroom artifacts, so
+Use as a syllabus/consent checklist. Students' personal health data enters classroom artifacts, so
 explicit consent is required; the student controls whether and how their data is used.
 
 - [ ] Independent opt-in per data-collection activity — no blanket consent.
