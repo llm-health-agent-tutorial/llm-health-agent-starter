@@ -35,8 +35,8 @@ Default LLM assistants tend to sycophantically ratify the user's framing, so the
 mutual interrogation — volunteering evidence that *complicates* the student's hypothesis — is a
 design requirement, not an emergent property. Students engineer it themselves in Phase 3
 (Decomposition and verification); the reference prompt below is the **fallback** that guarantees
-every student still experiences the mechanism when their own build does not yet produce it, or when
-the format omits Phase 3 (short formats compress to Phases 1, 2, 4, 5). Use it in whichever
+every student still experiences the mechanism when their own build does not yet produce it, and it
+doubles as the ready-made verifier for a short format's compressed Phase 3 exercise. Use it in whichever
 component carries verification in your build: a structured verification tool, a separate
 verification pass over the agent's own draft, or a role-specialized verification agent.
 
