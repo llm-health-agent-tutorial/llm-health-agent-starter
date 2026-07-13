@@ -24,20 +24,21 @@ settings are welcome (see `CONTRIBUTING.md`).
 | Safety & faithfulness evaluation checklist (supplementary artifact, beyond the paper's list) | [`templates/eval_safety_checklist.md`](templates/eval_safety_checklist.md) |
 | IRB decision flowchart | [`RESPONSIBLE_USE.md`](RESPONSIBLE_USE.md#irb-decision-flowchart-for-adapting-this-to-your-own-work) |
 | Counter-evidence (anti-sycophancy) verification prompt | below |
-| Classroom consent & data-governance minimums | below |
-| Peer red-teaming protocol, incl. crisis-probe conduct | below |
 | Incidental-findings referral pathway | below |
-| Demographic reasoning-layer stress tests | below |
+| Classroom consent & data-governance minimums (three participation modes) | below (elaborates the paper's governance prose) |
+| Peer red-teaming protocol, incl. crisis-probe conduct | below (elaborates the paper's governance prose) |
+| Demographic reasoning-layer stress tests | below (elaborates the paper's governance prose) |
 
 ## Counter-evidence verification prompt
 
 Default LLM assistants tend to sycophantically ratify the user's framing, so the agent's side of
 mutual interrogation — volunteering evidence that *complicates* the student's hypothesis — is a
-design requirement, not an emergent property. Students engineer it themselves in Phase 3; the
-reference prompt below is the **fallback** that guarantees every student still experiences the
-mechanism even when their own build does not yet produce it. Use it as the system-prompt clause of
-a verification sub-agent (multi-agent setups) or as an extra check in the grounded-response step
-(single-agent setups).
+design requirement, not an emergent property. Students engineer it themselves in Phase 3
+(Decomposition and verification); the reference prompt below is the **fallback** that guarantees
+every student still experiences the mechanism when their own build does not yet produce it, or when
+the format omits Phase 3 (short formats compress to Phases 1, 2, 4, 5). Use it in whichever
+component carries verification in your build: a structured verification tool, a separate
+verification pass over the agent's own draft, or a role-specialized verification agent.
 
 ```
 [COUNTER-EVIDENCE] Before finalizing an answer, search the retrieved data for
@@ -51,6 +52,26 @@ evidence cannot distinguish between hypotheses, say so instead of choosing one.
 
 Use as a syllabus/consent checklist. Students' personal health data enters classroom artifacts, so
 explicit consent is required; the student controls whether and how their data is used.
+
+### Three participation modes
+
+The embodied stake comes from *analyzing* one's own data, not from *disclosing* it. Governance
+therefore yields three modes, mixable per activity, so personal relevance never requires personal
+disclosure:
+
+1. **Private-personal** — the student analyzes their own data without exposing it: no peer viewing,
+   and no instructor access to raw streams unless the student requests it for debugging.
+2. **Synthetic-collaborative** — peer red-teaming and showcases run on shared synthetic personas or
+   on coarse aggregates from consenting students, with the data owner present under agreed
+   confidentiality norms. Sensitive probe categories default here.
+3. **Fully-synthetic** — every activity uses the teaching set. Available without penalty, for
+   wellbeing as well as privacy (self-tracking can itself distress some students).
+
+The first two preserve the embodied stake; only the third attenuates it. **Disclosure is never
+treated as engagement**: no grade, rubric score, showcase standing, or reflective prompt requires
+revealing the health content behind a design decision.
+
+### Minimums checklist
 
 - [ ] Independent opt-in per data-collection activity — no blanket consent.
 - [ ] Synthetic-data parity: every graded exercise, rubric row, and showcase slot has an
